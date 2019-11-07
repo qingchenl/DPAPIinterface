@@ -6,31 +6,33 @@
 using namespace Rcpp;
 
 // encrypt
-Rcpp::NumericVector encrypt(Rcpp::CharacterVector plaintext);
-RcppExport SEXP _DPAPIinterface_encrypt(SEXP plaintextSEXP) {
+Rcpp::NumericVector encrypt(Rcpp::CharacterVector plaintext, Rcpp::CharacterVector entropy);
+RcppExport SEXP _DPAPIinterface_encrypt(SEXP plaintextSEXP, SEXP entropySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type plaintext(plaintextSEXP);
-    rcpp_result_gen = Rcpp::wrap(encrypt(plaintext));
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type entropy(entropySEXP);
+    rcpp_result_gen = Rcpp::wrap(encrypt(plaintext, entropy));
     return rcpp_result_gen;
 END_RCPP
 }
 // decrypt
-std::string decrypt(Rcpp::NumericVector encrypt_vector);
-RcppExport SEXP _DPAPIinterface_decrypt(SEXP encrypt_vectorSEXP) {
+std::string decrypt(Rcpp::NumericVector encrypt_vector, Rcpp::CharacterVector entropy);
+RcppExport SEXP _DPAPIinterface_decrypt(SEXP encrypt_vectorSEXP, SEXP entropySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< Rcpp::NumericVector >::type encrypt_vector(encrypt_vectorSEXP);
-    rcpp_result_gen = Rcpp::wrap(decrypt(encrypt_vector));
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type entropy(entropySEXP);
+    rcpp_result_gen = Rcpp::wrap(decrypt(encrypt_vector, entropy));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_DPAPIinterface_encrypt", (DL_FUNC) &_DPAPIinterface_encrypt, 1},
-    {"_DPAPIinterface_decrypt", (DL_FUNC) &_DPAPIinterface_decrypt, 1},
+    {"_DPAPIinterface_encrypt", (DL_FUNC) &_DPAPIinterface_encrypt, 2},
+    {"_DPAPIinterface_decrypt", (DL_FUNC) &_DPAPIinterface_decrypt, 2},
     {NULL, NULL, 0}
 };
 
